@@ -168,10 +168,7 @@ export default function () {
 
     function zoom (d) {
         if (tooltip) tooltip.hide()
-        hideSiblings(d)
-        show(d)
-        fadeAncestors(d)
-        update()
+   
         if (scrollOnZoom) {
             const chartOffset = select(this).select('svg')._groups[0][0].parentNode.offsetTop
             const maxFrames = (window.innerHeight - chartOffset) / c
