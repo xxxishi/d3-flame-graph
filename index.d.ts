@@ -1,4 +1,4 @@
-declare module "d3-flame-graph" {
+declare module "d3-flame-graph-customized" {
     export function flamegraph(): FlameGraph;
     export interface StackFrame {
         name: string;
