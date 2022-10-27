@@ -133,8 +133,45 @@ export default function () {
         return calculateColor(hue, vector)
     }
 
+    function show (d) {
+        d.data.fade = false
+        d.data.hide = false
+        if (d.children) {
+            d.children.forEach(show)
+        }
+    }
+
+    function hideSiblings (node) {
+        let child = node
+        let parent = child.parent
+        let children, i, sibling
+        while (parent) {
+            children = parent.children
+            i = children.length
+            while (i--) {
+                sibling = children[i]
+                if (sibling !== child) {
+                    sibling.data.hide = true
+                }
+            }
+            child = parent
+            parent = child.parent
+        }
+    }
+
+    function fadeAncestors (d) {
+        if (d.parent) {
+            d.parent.data.fade = true
+            fadeAncestors(d.parent)
+        }
+    }
+
     function zoom (d) {
         if (tooltip) tooltip.hide()
+        hideSiblings(d)
+        show(d)
+        fadeAncestors(d)
+        update()
         if (scrollOnZoom) {
             const chartOffset = select(this).select('svg')._groups[0][0].parentNode.offsetTop
             const maxFrames = (window.innerHeight - chartOffset) / c
@@ -306,8 +343,6 @@ export default function () {
                 .transition()
                 .delay(transitionDuration)
                 .text(getName)
-
-            g.on('click', (_, d) => { zoom(d) })
 
             g.exit()
                 .remove()
