@@ -166,6 +166,13 @@ export default function () {
         }
     }
 
+    function clickWithoutZoom(d) {
+        if (tooltip) tooltip.hide()
+        if (typeof clickHandler === 'function') {
+            clickHandler(d)
+        }
+    }
+
     function zoom (d) {
         if (tooltip) tooltip.hide()
         hideSiblings(d)
@@ -343,6 +350,8 @@ export default function () {
                 .transition()
                 .delay(transitionDuration)
                 .text(getName)
+
+            g.on('click', (_, d) => { clickWithoutZoom(d) })
 
             g.exit()
                 .remove()
