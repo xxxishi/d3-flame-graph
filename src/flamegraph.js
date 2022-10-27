@@ -166,7 +166,7 @@ export default function () {
         }
     }
 
-    function clickWithoutZoom(d) {
+    function clickWithoutZoom (d) {
         if (tooltip) tooltip.hide()
         if (typeof clickHandler === 'function') {
             clickHandler(d)
